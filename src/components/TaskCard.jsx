@@ -116,30 +116,23 @@ const TaskCard = ({
             </div>
           </div>
 
-          {/* Seller Name and ID */}
-          <div className="mb-2">
-            <h3 className="text-sm sm:text-base font-semibold text-gray-700 mb-1">
-              {sellerName} | {task.sellerId}
-            </h3>
-          </div>
-
           {/* Task Title */}
           <div className="mb-3">
-            <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-tight">
+            <h2 className="text-sm sm:text-base font-bold text-gray-900 leading-tight">
               {task.id}-{task.title}
             </h2>
           </div>
 
           {/* Created Date */}
           <div className="mb-3">
-            <p className="text-sm font-semibold text-gray-700">
+            <p className="text-xs font-semibold text-gray-700">
               Created on: {formatDate(task.createdAt)}
             </p>
           </div>
 
           {/* Sub-Tasks Count */}
           <div className="mb-4">
-            <div className="flex items-center gap-1 text-sm">
+            <div className="flex items-center gap-1 text-xs">
               <span className="text-gray-700 font-medium">{subTasks.total} Sub-Task (Open:</span>
               <span className="text-blue-600 font-medium">{subTasks.open}</span>
               <span className="text-gray-700 font-medium">| Up:</span>
@@ -155,18 +148,18 @@ const TaskCard = ({
 
           {/* Owner and Status Row */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-md">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-md">
                 {task.ownerType} {task.owner.split(' ').pop()}
               </span>
               <PriorityBadge priority={task.priority} size="sm" />
+              
+              {overdueDays && (
+                <div className="text-red-500 font-medium text-xs">
+                  Overdue By {overdueDays} Days
+                </div>
+              )}
             </div>
-            
-            {overdueDays && (
-              <div className="text-red-500 font-medium text-sm">
-                Overdue By {overdueDays} Days
-              </div>
-            )}
           </div>
 
           {/* Actions */}
@@ -175,9 +168,9 @@ const TaskCard = ({
               <>
                 <button
                   onClick={handleCallSeller}
-                  className="flex items-center gap-1.5 px-3 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                 >
-                  <Phone className="w-4 h-4" />
+                  <Phone className="w-3 h-3" />
                   Call
                 </button>
                 
@@ -188,10 +181,10 @@ const TaskCard = ({
                       e.stopPropagation();
                       setShowActionMenu(!showActionMenu);
                     }}
-                    className="flex items-center gap-1.5 px-3 py-2 text-sm bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-2 text-xs bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100 transition-colors"
                   >
                     Take Action
-                    <ChevronDown className="w-4 h-4" />
+                    <ChevronDown className="w-3 h-3" />
                   </button>
                   
                   {/* Dropdown Menu */}
@@ -207,28 +200,28 @@ const TaskCard = ({
                       <div className="absolute right-0 bottom-full mb-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-20">
                         <button
                           onClick={(e) => handleAction(e, 'complete')}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                          className="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                         >
                           <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
                           Mark as Done
                         </button>
                         <button
                           onClick={(e) => handleAction(e, 'reassign')}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                          className="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                         >
                           <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
                           Re-assign Task
                         </button>
                         <button
                           onClick={(e) => handleAction(e, 'reject')}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                          className="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                         >
                           <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></div>
                           Mark Seller as Rejected
                         </button>
                         <button
                           onClick={(e) => handleAction(e, 'not-possible')}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                          className="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                         >
                           <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></div>
                           Mark Not Possible
@@ -247,7 +240,7 @@ const TaskCard = ({
               }}
               className="p-2 text-gray-400 hover:text-gray-600 transition-colors ml-auto"
             >
-              <MoreHorizontal className="w-4 h-4" />
+              <MoreHorizontal className="w-3 h-3" />
             </button>
           </div>
         </div>
