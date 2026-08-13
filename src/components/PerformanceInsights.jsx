@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const PerformanceInsights = ({ sellers }) => {
   // Sort sellers by performance score
@@ -28,21 +29,65 @@ const PerformanceInsights = ({ sellers }) => {
     };
   };
 
+  // Get Spend/GMV color based on performance thresholds
+  const getSpendGMVColor = (spendGMVRatio) => {
+    if (spendGMVRatio < 20) {
+      return {
+        bgColor: 'bg-green-50',
+        borderColor: 'border-green-200',
+        textColor: 'text-green-800',
+        labelColor: 'text-green-700'
+      };
+    } else if (spendGMVRatio >= 20 && spendGMVRatio <= 50) {
+      return {
+        bgColor: 'bg-yellow-50',
+        borderColor: 'border-yellow-200',
+        textColor: 'text-yellow-800',
+        labelColor: 'text-yellow-700'
+      };
+    } else {
+      return {
+        bgColor: 'bg-red-50',
+        borderColor: 'border-red-200',
+        textColor: 'text-red-800',
+        labelColor: 'text-red-700'
+      };
+    }
+  };
+
   // Format percentage
   const formatPercentage = (value) => {
     return `${value.toFixed(1)}%`;
   };
 
-  // Format time ago
-  const formatTimeAgo = (dateString) => {
-    const now = new Date();
-    const date = new Date(dateString);
-    const diffInMs = now - date;
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+  // Get trend icon and color for comparison
+  const getTrendIndicator = (lastWeek, currentWeek, isSpendGMV = true) => {
+    const diff = currentWeek - lastWeek;
+    // For Spend/GMV, lower is better. For RTO, lower is also better.
+    const isImprovement = diff < 0;
+    const isWorsening = diff > 0;
     
-    if (diffInDays === 0) return 'Today';
-    if (diffInDays === 1) return '1 day ago';
-    return `${diffInDays} days ago`;
+    if (Math.abs(diff) < 0.1) {
+      return {
+        icon: <Minus className="w-3 h-3" />,
+        color: 'text-gray-500',
+        bgColor: 'bg-gray-100'
+      };
+    }
+    
+    if (isImprovement) {
+      return {
+        icon: <TrendingDown className="w-3 h-3" />,
+        color: 'text-green-600',
+        bgColor: 'bg-green-100'
+      };
+    }
+    
+    return {
+      icon: <TrendingUp className="w-3 h-3" />,
+      color: 'text-red-600',
+      bgColor: 'bg-red-100'
+    };
   };
 
   return (
@@ -51,6 +96,17 @@ const PerformanceInsights = ({ sellers }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {rankedSellers.map((seller) => {
           const performance = getPerformanceLevel(seller.performance.performanceScore);
+          const spendGMVColors = getSpendGMVColor(seller.performance.spendGMVRatio.currentWeek);
+          const spendTrend = getTrendIndicator(
+            seller.performance.spendGMVRatio.lastWeek,
+            seller.performance.spendGMVRatio.currentWeek,
+            true
+          );
+          const rtoTrend = getTrendIndicator(
+            seller.performance.rtoPercentage.lastWeek,
+            seller.performance.rtoPercentage.currentWeek,
+            false
+          );
           
           return (
             <div
@@ -61,26 +117,69 @@ const PerformanceInsights = ({ sellers }) => {
               <div className="flex items-start justify-between mb-3 sm:mb-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
-                    <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{seller.name}</h3>
+                    <h3 className="font-semibold text-gray-900 text-base sm:text-lg truncate">{seller.name}</h3>
                     {seller.tag && (
-                      <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded self-start">
+                      <span className="px-2 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded self-start">
                         {seller.tag}
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">ID: {seller.id.slice(-15)}</div>
+                  <div className="text-sm text-gray-500 truncate">ID: {seller.id.slice(-15)}</div>
                 </div>
               </div>
 
               {/* Performance Metrics */}
-              <div className="grid grid-cols-1 gap-2 sm:gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-gray-600">Spend/GMV:</span>
-                  <span className="font-semibold text-gray-900 text-xs sm:text-sm">{formatPercentage(seller.performance.spendGMVRatio)}</span>
+              <div className="space-y-3">
+                {/* Spend/GMV */}
+                <div className={`${spendGMVColors.bgColor} rounded-lg border ${spendGMVColors.borderColor} p-3`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-base font-medium ${spendGMVColors.labelColor}`}>Spend/GMV</span>
+                    <div className={`flex items-center gap-1 px-2 py-1 rounded-full ${spendTrend.bgColor}`}>
+                      <span className={`${spendTrend.color}`}>
+                        {spendTrend.icon}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-500 mb-1">Current Week</div>
+                      <div className={`text-base font-semibold ${spendGMVColors.textColor}`}>
+                        {formatPercentage(seller.performance.spendGMVRatio.currentWeek)}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-gray-500 mb-1">Last Week</div>
+                      <div className="text-base font-semibold text-gray-700">
+                        {formatPercentage(seller.performance.spendGMVRatio.lastWeek)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-gray-600">RTO:</span>
-                  <span className="font-semibold text-gray-900 text-xs sm:text-sm">{formatPercentage(seller.performance.rtoPercentage)}</span>
+
+                {/* RTO */}
+                <div className="bg-white rounded-lg border border-gray-200 p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-base font-medium text-gray-700">RTO</span>
+                    <div className={`flex items-center gap-1 px-2 py-1 rounded-full ${rtoTrend.bgColor}`}>
+                      <span className={`${rtoTrend.color}`}>
+                        {rtoTrend.icon}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-500 mb-1">Current Week</div>
+                      <div className="text-base font-semibold text-gray-900">
+                        {formatPercentage(seller.performance.rtoPercentage.currentWeek)}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-gray-500 mb-1">Last Week</div>
+                      <div className="text-base font-semibold text-gray-700">
+                        {formatPercentage(seller.performance.rtoPercentage.lastWeek)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

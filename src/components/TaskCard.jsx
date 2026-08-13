@@ -1,4 +1,4 @@
-import { Phone, Eye, MoreHorizontal, ChevronDown } from 'lucide-react';
+import { Phone, MoreHorizontal, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import PriorityBadge from './PriorityBadge';
 import StatusBadge from './StatusBadge';
@@ -47,15 +47,44 @@ const TaskCard = ({
     }
   };
 
-  const getOwnerDisplay = () => {
-    return `${task.ownerType} ${task.owner.split(' ').pop()}`;
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
   };
+
+  const getSubTaskCounts = () => {
+    // Simple task counts for display
+    return {
+      total: 1,
+      open: task.status === 'Pending' ? 1 : 0,
+      up: 0,
+      closed: task.status === 'Closed' ? 1 : 0
+    };
+  };
+
+  const getOverdueDays = () => {
+    if (task.status === 'Closed') return null;
+    const today = new Date();
+    const dueDate = new Date(task.dueAt);
+    const diffTime = today - dueDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : null;
+  };
+
+  const subTasks = getSubTaskCounts();
+  const overdueDays = getOverdueDays();
 
   return (
     <div 
       className={`
-        bg-white rounded-lg border p-3 sm:p-4 transition-all cursor-pointer
-        ${isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}
+        bg-white rounded-lg border border-gray-300 p-3 sm:p-4 transition-all cursor-pointer hover:shadow-md
+        ${isSelected ? 'border-blue-500 bg-blue-50' : ''}
         ${task.status === 'Closed' ? 'opacity-75' : ''}
       `}
       onClick={() => onViewDetails && onViewDetails(task)}
@@ -76,119 +105,147 @@ const TaskCard = ({
 
         {/* Task Content */}
         <div className="flex-1 min-w-0">
+          {/* Header with Category Tag */}
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
-            <div className="flex-1 min-w-0">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
-                <span className="text-sm font-medium text-gray-500">#{task.id}</span>
-                <PriorityBadge priority={task.priority} size="xs" />
-              </div>
-              <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-1 line-clamp-2">
-                {task.title}
-              </h4>
-              <p className="text-sm text-gray-600 mb-2">
-                {task.type}
-              </p>
-              
-              {/* Seller Information */}
-              <div className="space-y-1 mb-2">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-sm">
-                  <span className="text-gray-500">Seller ID:</span>
-                  <span className="text-gray-700 font-medium break-all">{task.sellerId}</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-sm">
-                  <span className="text-gray-500">Seller Name:</span>
-                  <span className="text-gray-700 font-medium truncate">{sellerName}</span>
-                </div>
+            <div className="flex-1">
+              <div className="mb-2">
+                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-medium border border-blue-200">
+                  {task.category?.toUpperCase() || 'TASK'}
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
-            <StatusBadge status={task.status} dueAt={task.dueAt} />
-            <span className="text-xs sm:text-sm text-gray-500 truncate">
-              Owner: {getOwnerDisplay()}
-            </span>
+          {/* Seller Name and ID */}
+          <div className="mb-2">
+            <h3 className="text-sm sm:text-base font-semibold text-gray-700 mb-1">
+              {sellerName} | {task.sellerId}
+            </h3>
+          </div>
+
+          {/* Task Title */}
+          <div className="mb-3">
+            <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-tight">
+              {task.id}-{task.title}
+            </h2>
+          </div>
+
+          {/* Created Date */}
+          <div className="mb-3">
+            <p className="text-sm font-semibold text-gray-700">
+              Created on: {formatDate(task.createdAt)}
+            </p>
+          </div>
+
+          {/* Sub-Tasks Count */}
+          <div className="mb-4">
+            <div className="flex items-center gap-1 text-sm">
+              <span className="text-gray-700 font-medium">{subTasks.total} Sub-Task (Open:</span>
+              <span className="text-blue-600 font-medium">{subTasks.open}</span>
+              <span className="text-gray-700 font-medium">| Up:</span>
+              <span className="text-orange-600 font-medium">{subTasks.up}</span>
+              <span className="text-gray-700 font-medium">| Closed:</span>
+              <span className="text-green-600 font-medium">{subTasks.closed}</span>
+              <span className="text-gray-700 font-medium">)</span>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-200 mb-3"></div>
+
+          {/* Owner and Status Row */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-md">
+                {task.ownerType} {task.owner.split(' ').pop()}
+              </span>
+              <PriorityBadge priority={task.priority} size="sm" />
+            </div>
+            
+            {overdueDays && (
+              <div className="text-red-500 font-medium text-sm">
+                Overdue By {overdueDays} Days
+              </div>
+            )}
           </div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              {task.status !== 'Closed' && (
-                <>
+          <div className="flex items-center gap-2 flex-wrap">
+            {task.status !== 'Closed' && (
+              <>
+                <button
+                  onClick={handleCallSeller}
+                  className="flex items-center gap-1.5 px-3 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  Call
+                </button>
+                
+                {/* Take Action Dropdown */}
+                <div className="relative">
                   <button
-                    onClick={handleCallSeller}
-                    className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 text-xs sm:text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowActionMenu(!showActionMenu);
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100 transition-colors"
                   >
-                    <Phone className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
-                    Call
+                    Take Action
+                    <ChevronDown className="w-4 h-4" />
                   </button>
                   
-                  {/* Take Action Dropdown */}
-                  <div className="relative">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowActionMenu(!showActionMenu);
-                      }}
-                      className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 text-xs sm:text-sm bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100 transition-colors whitespace-nowrap"
-                    >
-                      Take Action
-                      <ChevronDown className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
-                    </button>
-                    
-                    {/* Dropdown Menu */}
-                    {showActionMenu && (
-                      <>
-                        {/* Backdrop */}
-                        <div 
-                          className="fixed inset-0 z-10" 
-                          onClick={() => setShowActionMenu(false)}
-                        />
-                        
-                        {/* Menu */}
-                        <div className="absolute right-0 bottom-full mb-1 w-40 sm:w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-20">
-                          <button
-                            onClick={(e) => handleAction(e, 'complete')}
-                            className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-                          >
-                            <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                            <span className="truncate">Mark as Done</span>
-                          </button>
-                          <button
-                            onClick={(e) => handleAction(e, 'reassign')}
-                            className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-                          >
-                            <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
-                            <span className="truncate">Re-assign Task</span>
-                          </button>
-                          <button
-                            onClick={(e) => handleAction(e, 'reject')}
-                            className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-                          >
-                            <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></div>
-                            <span className="truncate">Mark Seller as Rejected</span>
-                          </button>
-                          <button
-                            onClick={(e) => handleAction(e, 'not-possible')}
-                            className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-                          >
-                            <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></div>
-                            <span className="truncate">Mark Not Possible</span>
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
+                  {/* Dropdown Menu */}
+                  {showActionMenu && (
+                    <>
+                      {/* Backdrop */}
+                      <div 
+                        className="fixed inset-0 z-10" 
+                        onClick={() => setShowActionMenu(false)}
+                      />
+                      
+                      {/* Menu */}
+                      <div className="absolute right-0 bottom-full mb-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-20">
+                        <button
+                          onClick={(e) => handleAction(e, 'complete')}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                        >
+                          <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+                          Mark as Done
+                        </button>
+                        <button
+                          onClick={(e) => handleAction(e, 'reassign')}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                        >
+                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                          Re-assign Task
+                        </button>
+                        <button
+                          onClick={(e) => handleAction(e, 'reject')}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                        >
+                          <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></div>
+                          Mark Seller as Rejected
+                        </button>
+                        <button
+                          onClick={(e) => handleAction(e, 'not-possible')}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                        >
+                          <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></div>
+                          Mark Not Possible
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
             
             <button 
               onClick={(e) => {
                 e.stopPropagation();
                 // Open task details
               }}
-              className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors self-end sm:self-auto"
+              className="p-2 text-gray-400 hover:text-gray-600 transition-colors ml-auto"
             >
               <MoreHorizontal className="w-4 h-4" />
             </button>

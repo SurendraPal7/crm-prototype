@@ -41,7 +41,7 @@ const SellerCard = ({ seller, communications = [], context = 'general' }) => {
                 {seller.name}
               </h3>
               {seller.tag && (
-                <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-medium border border-blue-200 self-start">
+                <span className="bg-blue-600 text-white px-2 py-1 rounded-lg text-xs font-medium border border-blue-600 self-start">
                   {seller.tag}
                 </span>
               )}

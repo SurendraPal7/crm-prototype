@@ -8,6 +8,8 @@ import TaskDrawer from '../components/TaskDrawer';
 import CompleteTaskModal from '../components/CompleteTaskModal';
 import BulkCompleteModal from '../components/BulkCompleteModal';
 import PerformanceInsights from '../components/PerformanceInsights';
+import BucketHealthCard from '../components/BucketHealthCard';
+import PotentialSellerCard from '../components/PotentialSellerCard';
 import { sellers } from '../data/sellers';
 import { communications } from '../data/communications';
 import { useTasks } from '../hooks/useTasks';
@@ -153,26 +155,137 @@ const Cockpit = () => {
   const callbackSellers = useMemo(() => {
     const callbackTaskSellers = tasks.filter(task => task.category === 'callback' && task.status !== 'Closed');
     const sellerIds = [...new Set(callbackTaskSellers.map(task => task.sellerId))];
-    return sellers.filter(seller => sellerIds.includes(seller.id));
-  }, [tasks, sellers]);
+    let filtered = sellers.filter(seller => sellerIds.includes(seller.id));
+
+    // Apply search filter
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      filtered = filtered.filter(seller =>
+        seller.name.toLowerCase().includes(search) ||
+        seller.id.toLowerCase().includes(search)
+      );
+    }
+
+    return filtered;
+  }, [tasks, sellers, filters.search]);
 
   const p0Sellers = useMemo(() => {
     const p0TaskSellers = tasks.filter(task => task.priority === 'P0' && task.status !== 'Closed');
     const sellerIds = [...new Set(p0TaskSellers.map(task => task.sellerId))];
-    return sellers.filter(seller => sellerIds.includes(seller.id));
-  }, [tasks, sellers]);
+    let filtered = sellers.filter(seller => sellerIds.includes(seller.id));
+
+    // Apply search filter
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      filtered = filtered.filter(seller =>
+        seller.name.toLowerCase().includes(search) ||
+        seller.id.toLowerCase().includes(search)
+      );
+    }
+
+    return filtered;
+  }, [tasks, sellers, filters.search]);
 
   const p1Sellers = useMemo(() => {
     const p1TaskSellers = tasks.filter(task => task.priority === 'P1' && task.status !== 'Closed');
     const sellerIds = [...new Set(p1TaskSellers.map(task => task.sellerId))];
-    return sellers.filter(seller => sellerIds.includes(seller.id));
-  }, [tasks, sellers]);
+    let filtered = sellers.filter(seller => sellerIds.includes(seller.id));
+
+    // Apply search filter
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      filtered = filtered.filter(seller =>
+        seller.name.toLowerCase().includes(search) ||
+        seller.id.toLowerCase().includes(search)
+      );
+    }
+
+    return filtered;
+  }, [tasks, sellers, filters.search]);
 
   const p2Sellers = useMemo(() => {
     const p2TaskSellers = tasks.filter(task => task.priority === 'P2' && task.status !== 'Closed');
     const sellerIds = [...new Set(p2TaskSellers.map(task => task.sellerId))];
-    return sellers.filter(seller => sellerIds.includes(seller.id));
-  }, [tasks, sellers]);
+    let filtered = sellers.filter(seller => sellerIds.includes(seller.id));
+
+    // Apply search filter
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      filtered = filtered.filter(seller =>
+        seller.name.toLowerCase().includes(search) ||
+        seller.id.toLowerCase().includes(search)
+      );
+    }
+
+    return filtered;
+  }, [tasks, sellers, filters.search]);
+
+  // Filter sellers for Bucket Health based on criteria
+  const bucketHealthSellers = useMemo(() => {
+    let filtered = sellers.filter(seller => {
+      const performance = seller.performance;
+      // Check if seller has the required bucket health fields
+      if (!performance.pnlLastWeek || !performance.spend || !performance.pqScore) {
+        return false;
+      }
+      
+      // Exclude sellers who qualify as Potential Sellers (PnL >= 5%)
+      if (performance.pnlLastWeek >= 5) {
+        return false;
+      }
+      
+      // Criteria: (PnL > -20% AND spend >= 3500) OR PQ score > 2.75
+      const basicCriteria = performance.pnlLastWeek > -20 && performance.spend >= 3500;
+      const pqCriteria = performance.pqScore > 2.75;
+      
+      return basicCriteria || pqCriteria;
+    });
+
+    // Apply search filter
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      filtered = filtered.filter(seller =>
+        seller.name.toLowerCase().includes(search) ||
+        seller.id.toLowerCase().includes(search)
+      );
+    }
+    
+    // Sort by profitability (PnL) - highest first
+    return filtered.sort((a, b) => b.performance.pnlLastWeek - a.performance.pnlLastWeek);
+  }, [sellers, filters.search]);
+
+  // Filter sellers for Potential Sellers based on criteria
+  const potentialSellers = useMemo(() => {
+    let filtered = sellers.filter(seller => {
+      const performance = seller.performance;
+      // Check if seller has the required fields
+      if (!performance.pnlLastWeek || !performance.spend || !performance.pqScore) {
+        return false;
+      }
+      
+      // Primary criteria: If PnL >= 5%, check additional conditions
+      if (performance.pnlLastWeek >= 5) {
+        // Must also meet: (Spend >= 3500) OR (PQ Score > 2.75)
+        const spendCriteria = performance.spend >= 3500;
+        const pqCriteria = performance.pqScore > 2.75;
+        return spendCriteria || pqCriteria;
+      }
+      
+      return false; // If PnL < 5%, not a potential seller
+    });
+
+    // Apply search filter
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      filtered = filtered.filter(seller =>
+        seller.name.toLowerCase().includes(search) ||
+        seller.id.toLowerCase().includes(search)
+      );
+    }
+    
+    // Sort by profitability (PnL) - highest first
+    return filtered.sort((a, b) => b.performance.pnlLastWeek - a.performance.pnlLastWeek);
+  }, [sellers, filters.search]);
 
   // Keep original task filters for counts and other functionality
   const p0Tasks = useMemo(() => {
@@ -206,8 +319,19 @@ const Cockpit = () => {
     const sellerIds = [...new Set(p1TasksDueToday.map(task => task.sellerId))];
     
     // Filter sellers who have P1 tasks due today
-    return sellers.filter(seller => sellerIds.includes(seller.id));
-  }, [tasks, sellers]);
+    let filtered = sellers.filter(seller => sellerIds.includes(seller.id));
+
+    // Apply search filter
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      filtered = filtered.filter(seller =>
+        seller.name.toLowerCase().includes(search) ||
+        seller.id.toLowerCase().includes(search)
+      );
+    }
+
+    return filtered;
+  }, [tasks, sellers, filters.search]);
 
   const handleSelectAllTasks = () => {
     let visibleTasks = [];
@@ -262,6 +386,26 @@ const Cockpit = () => {
   const handleConfirmComplete = async (taskId, remarks) => {
     markTaskComplete(taskId, remarks);
     toast.success('Task marked as complete');
+  };
+
+  const shouldShowEmptyState = () => {
+    return (activeSection === 'p0-tasks' && p0Sellers.length === 0) ||
+           (activeSection === 'p1-tasks' && p1Sellers.length === 0) ||
+           (activeSection === 'p2-tasks' && p2Sellers.length === 0) ||
+           (activeSection === 'callbacks' && callbackSellers.length === 0) ||
+           (activeSection === 'bucket-health' && bucketHealthSellers.length === 0) ||
+           (activeSection === 'potential-sellers' && potentialSellers.length === 0) ||
+           (activeSection === 'p1-due-today' && sellersWithP1DueToday.length === 0);
+  };
+
+  const getEmptyStateMessage = () => {
+    if (activeSection === 'bucket-health') {
+      return 'No sellers currently meet the bucket health criteria (PnL > -20%, Spend >= Rs.3,500, PQ Score > 2.75).';
+    }
+    if (activeSection === 'potential-sellers') {
+      return 'No sellers currently meet the potential seller criteria (PnL > 5%, Spend >= Rs.3,500, PQ Score > 2.75).';
+    }
+    return 'Try adjusting your search or filters to find what you are looking for.';
   };
 
   return (
@@ -327,7 +471,7 @@ const Cockpit = () => {
         <div className="flex flex-wrap gap-3 sm:gap-6 mb-4 sm:mb-6 mt-6 sm:mt-8 overflow-x-auto">
           <button
             onClick={() => setActiveSection('callbacks')}
-            className={`pb-2 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`pb-2 border-b-2 font-medium text-base whitespace-nowrap ${
               activeSection === 'callbacks'
                 ? 'border-blue-600 text-blue-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -337,7 +481,7 @@ const Cockpit = () => {
           </button>
           <button
             onClick={() => setActiveSection('p0-tasks')}
-            className={`pb-2 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`pb-2 border-b-2 font-medium text-base whitespace-nowrap ${
               activeSection === 'p0-tasks'
                 ? 'border-red-600 text-red-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -347,7 +491,7 @@ const Cockpit = () => {
           </button>
           <button
             onClick={() => setActiveSection('p1-tasks')}
-            className={`pb-2 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`pb-2 border-b-2 font-medium text-base whitespace-nowrap ${
               activeSection === 'p1-tasks'
                 ? 'border-orange-600 text-orange-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -357,7 +501,7 @@ const Cockpit = () => {
           </button>
           <button
             onClick={() => setActiveSection('p2-tasks')}
-            className={`pb-2 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`pb-2 border-b-2 font-medium text-base whitespace-nowrap ${
               activeSection === 'p2-tasks'
                 ? 'border-blue-600 text-blue-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -367,7 +511,7 @@ const Cockpit = () => {
           </button>
           <button
             onClick={() => setActiveSection('performance')}
-            className={`pb-2 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`pb-2 border-b-2 font-medium text-base whitespace-nowrap ${
               activeSection === 'performance'
                 ? 'border-blue-600 text-blue-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -375,10 +519,30 @@ const Cockpit = () => {
           >
             Performance Insights ({sellers.length})
           </button>
+          <button
+            onClick={() => setActiveSection('bucket-health')}
+            className={`pb-2 border-b-2 font-medium text-base whitespace-nowrap ${
+              activeSection === 'bucket-health'
+                ? 'border-purple-600 text-purple-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Bucket Health ({bucketHealthSellers.length})
+          </button>
+          <button
+            onClick={() => setActiveSection('potential-sellers')}
+            className={`pb-2 border-b-2 font-medium text-base whitespace-nowrap ${
+              activeSection === 'potential-sellers'
+                ? 'border-green-600 text-green-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Potential Sellers ({potentialSellers.length})
+          </button>
           {activeSection === 'p1-due-today' && (
             <button
               onClick={() => setActiveSection('p1-due-today')}
-              className="pb-2 border-b-2 border-orange-600 text-orange-600 font-medium text-sm whitespace-nowrap"
+              className="pb-2 border-b-2 border-orange-600 text-orange-600 font-medium text-base whitespace-nowrap"
             >
               P1 Due Today ({sellersWithP1DueToday.length})
             </button>
@@ -461,6 +625,55 @@ const Cockpit = () => {
           <PerformanceInsights sellers={sellers} />
         )}
 
+
+        {activeSection === 'bucket-health' && (
+          <div>
+            <div className="mb-4 sm:mb-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+                BUCKET HEALTH SELLERS
+                <span className="ml-2 text-sm font-normal text-gray-500">
+                  {bucketHealthSellers.length}
+                </span>
+              </h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Sellers meeting criteria: (PnL &gt; -20% AND Spend &gt;= Rs.3,500) AND PQ Score &gt; 2.75
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+              {bucketHealthSellers.map(seller => (
+                <BucketHealthCard 
+                  key={seller.id} 
+                  seller={seller} 
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeSection === 'potential-sellers' && (
+          <div>
+            <div className="mb-4 sm:mb-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+                POTENTIAL SELLERS
+                <span className="ml-2 text-sm font-normal text-gray-500">
+                  {potentialSellers.length}
+                </span>
+              </h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Sellers with PnL &gt;= 5% AND (Spend &gt;= Rs.3,500 and PQ Score &gt; 2.75)
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+              {potentialSellers.map(seller => (
+                <PotentialSellerCard 
+                  key={seller.id} 
+                  seller={seller} 
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeSection === 'p1-due-today' && (
           <div>
             <div className="mb-4">
@@ -508,18 +721,14 @@ const Cockpit = () => {
         )}
 
         {/* Empty State */}
-        {((activeSection === 'p0-tasks' && p0Sellers.length === 0) ||
-          (activeSection === 'p1-tasks' && p1Sellers.length === 0) ||
-          (activeSection === 'p2-tasks' && p2Sellers.length === 0) ||
-          (activeSection === 'callbacks' && callbackSellers.length === 0) ||
-          (activeSection === 'p1-due-today' && sellersWithP1DueToday.length === 0)) && (
+        {shouldShowEmptyState() && (
           <div className="text-center py-12">
             <div className="text-gray-400 mb-4">
               <FolderOpen className="w-16 h-16 mx-auto" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No results found</h3>
             <p className="text-gray-500">
-              Try adjusting your search or filters to find what you're looking for.
+              {getEmptyStateMessage()}
             </p>
           </div>
         )}

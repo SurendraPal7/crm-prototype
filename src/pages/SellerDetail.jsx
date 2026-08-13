@@ -215,7 +215,7 @@ const SellerDetail = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
                   <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{seller.name}</h1>
                   {seller.tag && (
-                    <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-sm font-medium border border-blue-200 self-start">
+                    <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-medium border border-blue-600 self-start">
                       {seller.tag}
                     </span>
                   )}
