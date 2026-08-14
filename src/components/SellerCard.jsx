@@ -40,11 +40,6 @@ const SellerCard = ({ seller, communications = [], context = 'general' }) => {
               <h3 className="text-base sm:text-lg font-semibold text-gray-900 line-clamp-2">
                 {seller.name}
               </h3>
-              {seller.tag && (
-                <span className="bg-blue-600 text-white px-2 py-1 rounded-lg text-xs font-medium border border-blue-600 self-start">
-                  {seller.tag}
-                </span>
-              )}
             </div>
             <p className="text-sm text-gray-500 mb-3">
               ID: {seller.id}

@@ -19,11 +19,6 @@ const BucketHealthCard = ({ seller }) => {
             <h3 className="text-lg sm:text-xl font-semibold text-gray-900 line-clamp-2">
               {name}
             </h3>
-            {tag && (
-              <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-medium border border-blue-600 self-start">
-                {tag}
-              </span>
-            )}
           </div>
           <p className="text-sm text-gray-500 mb-2">
             ID: {id}
@@ -89,6 +84,19 @@ const BucketHealthCard = ({ seller }) => {
             <span className="text-gray-500">PQ Score:</span>
             <span className={`font-semibold text-base ${performance.pqScore >= 3.0 ? 'text-green-600' : 'text-blue-600'}`}>
               {performance.pqScore.toFixed(1)}
+            </span>
+          </div>
+        </div>
+        
+        <div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-sm">
+            <span className="text-gray-500">TS Status:</span>
+            <span className={`px-2 py-1 text-xs font-medium rounded ${
+              (performance.tsStatus === 'Pending' || !performance.tsStatus) ? 'bg-yellow-100 text-yellow-800' : 
+              performance.tsStatus === 'Manual TS' ? 'bg-blue-100 text-blue-800' : 
+              'bg-green-100 text-green-800'
+            }`}>
+              {performance.tsStatus || 'Pending'}
             </span>
           </div>
         </div>

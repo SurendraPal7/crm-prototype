@@ -284,7 +284,7 @@ const SellerDetail = () => {
             {/* Owner Filters */}
             <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
               <span className="text-sm font-medium text-gray-900 mb-1 sm:mb-0">Owner:</span>
-              {['all', 'my-tasks', 'GM', 'GC', 'KAM', 'KAE', 'AMA', 'ALM', 'Ops'].map(owner => (
+              {['all', 'my-tasks', 'GM', 'GC', 'KAM', 'KAE', 'Ops'].map(owner => (
                 <button
                   key={owner}
                   onClick={() => setOwnerFilter(owner)}

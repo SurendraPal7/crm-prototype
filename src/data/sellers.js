@@ -2,7 +2,7 @@ export const sellers = [
   {
     id: '69f0aa198e866a58da55209',
     name: 'Mohd Suhaib Zaman Khan',
-    tag: 'HIT',
+    tag: null,
     openTasks: 6,
     overdueTasks: 3,
     lastContact: '2026-08-08T10:30:00Z',
@@ -21,6 +21,11 @@ export const sellers = [
       },
       performanceScore: 85, // Overall performance score (0-100)
       trend: 'up', // up, down, stable
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 4250, // Within 0-7000 range
+        lastWeek: 3890
+      },
       // New fields for Bucket Health
       pnlLastWeek: -15.2, // P&L percentage (negative means loss)
       spend: 4200, // Weekly spend amount
@@ -28,13 +33,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -18.5, // Week-2 PnL percentage
       spendWeek2: 3900, // Week-2 spend amount
-      spendGMVLastWeek: 5.0 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.0, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '6a476931e76a997f7baa1915',
     name: 'BIOALEXIS TRADING INDIA PRIVATE LIMITED',
-    tag: 'HIT',
+    tag: null,
     openTasks: 4,
     overdueTasks: 2,
     lastContact: '2026-08-07T14:20:00Z',
@@ -53,6 +60,11 @@ export const sellers = [
       },
       performanceScore: 92,
       trend: 'up',
+      accountStatus: 'Paused', // Account is paused
+      weeklySpend: {
+        currentWeek: 0, // No spend when paused
+        lastWeek: 5120
+      },
       // New fields for Bucket Health
       pnlLastWeek: -18.5, // P&L percentage (negative means loss)
       spend: 5200, // Weekly spend amount
@@ -60,13 +72,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -22.1, // Week-2 PnL percentage
       spendWeek2: 4800, // Week-2 spend amount
-      spendGMVLastWeek: 4.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 4.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '6a562461ef3ebefe920db8ae',
     name: 'M/S Bemisal Enterprises',
-    tag: 'HIT',
+    tag: null,
     openTasks: 3,
     overdueTasks: 1,
     lastContact: '2026-08-06T09:15:00Z',
@@ -85,6 +99,11 @@ export const sellers = [
       },
       performanceScore: 72,
       trend: 'down',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 3540, // Within range
+        lastWeek: 3900
+      },
       // New fields for Bucket Health
       pnlLastWeek: -19.5, // P&L percentage (negative means loss)
       spend: 3600, // Weekly spend amount
@@ -92,13 +111,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -25.2, // Week-2 PnL percentage
       spendWeek2: 3200, // Week-2 spend amount
-      spendGMVLastWeek: 22.5 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 22.5, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '6a5489356f8c14f7a53582df',
     name: 'Shop',
-    tag: 'HIT',
+    tag: null,
     openTasks: 2,
     overdueTasks: 0,
     lastContact: '2026-08-08T16:45:00Z',
@@ -117,6 +138,11 @@ export const sellers = [
       },
       performanceScore: 65,
       trend: 'down',
+      accountStatus: 'Paused', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 28400,
+        lastWeek: 31500
+      },
       // New fields for Bucket Health
       pnlLastWeek: -12.5, // P&L percentage (negative means loss)
       spend: 4100, // Weekly spend amount
@@ -124,7 +150,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -18.8, // Week-2 PnL percentage
       spendWeek2: 3800, // Week-2 spend amount
-      spendGMVLastWeek: 55.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 55.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -149,6 +177,11 @@ export const sellers = [
       },
       performanceScore: 79,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 4120, // Within range
+        lastWeek: 3510
+      },
       // New fields for Bucket Health
       pnlLastWeek: -16.2, // P&L percentage (negative means loss)
       spend: 3800, // Weekly spend amount
@@ -156,13 +189,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -20.5, // Week-2 PnL percentage
       spendWeek2: 3500, // Week-2 spend amount
-      spendGMVLastWeek: 4.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 4.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '6c234567890abcdef1234567',
     name: 'Global Imports & Exports',
-    tag: 'HIT',
+    tag: null,
     openTasks: 3,
     overdueTasks: 1,
     lastContact: '2026-08-07T13:00:00Z',
@@ -181,6 +216,11 @@ export const sellers = [
       },
       performanceScore: 95,
       trend: 'up',
+      accountStatus: 'Live',
+      weeklySpend: {
+        currentWeek: 6210, // High spend within range
+        lastWeek: 5250
+      },
       // New fields for Bucket Health
       pnlLastWeek: -8.5, // P&L percentage (negative means loss)
       spend: 6200, // Weekly spend amount
@@ -188,7 +228,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -12.8, // Week-2 PnL percentage
       spendWeek2: 5900, // Week-2 spend amount
-      spendGMVLastWeek: 3.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 3.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -213,6 +255,11 @@ export const sellers = [
       },
       performanceScore: 88,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 4460, // Within range
+        lastWeek: 4140
+      },
       // New fields for Bucket Health
       pnlLastWeek: -14.8, // P&L percentage (negative means loss)
       spend: 3900, // Weekly spend amount
@@ -220,13 +267,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -18.3, // Week-2 PnL percentage
       spendWeek2: 3600, // Week-2 spend amount
-      spendGMVLastWeek: 4.7 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 4.7, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '6e456789012abcdef3456789',
     name: 'Kumar Fashion House',
-    tag: 'HIT',
+    tag: null,
     openTasks: 4,
     overdueTasks: 1,
     lastContact: '2026-08-06T15:45:00Z',
@@ -245,6 +294,11 @@ export const sellers = [
       },
       performanceScore: 69,
       trend: 'down',
+      accountStatus: 'Paused', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 0, // No spend when paused
+        lastWeek: 4420
+      },
       // New fields for Bucket Health
       pnlLastWeek: -22.8, // P&L percentage (negative means loss)
       spend: 2900, // Weekly spend amount
@@ -252,7 +306,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -28.5, // Week-2 PnL percentage
       spendWeek2: 2600, // Week-2 spend amount
-      spendGMVLastWeek: 32.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 32.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -277,6 +333,11 @@ export const sellers = [
       },
       performanceScore: 58,
       trend: 'down',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 2420, // Below 3500
+        lastWeek: 2240
+      },
       // New fields for Bucket Health
       pnlLastWeek: -32.5, // P&L percentage (negative means loss)
       spend: 2200, // Weekly spend amount
@@ -284,7 +345,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -38.2, // Week-2 PnL percentage
       spendWeek2: 2000, // Week-2 spend amount
-      spendGMVLastWeek: 6.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 6.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -309,6 +372,11 @@ export const sellers = [
       },
       performanceScore: 52,
       trend: 'down',
+      accountStatus: 'Paused', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 0, // No spend when paused
+        lastWeek: 4720
+      },
       // New fields for Bucket Health
       pnlLastWeek: -45.2, // P&L percentage (negative means loss)
       spend: 1800, // Weekly spend amount
@@ -316,13 +384,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -52.8, // Week-2 PnL percentage
       spendWeek2: 1600, // Week-2 spend amount
-      spendGMVLastWeek: 68.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 68.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '7b789012345abcdef6789012',
     name: 'Gupta Jewellers',
-    tag: 'HIT',
+    tag: null,
     openTasks: 2,
     overdueTasks: 0,
     lastContact: '2026-08-08T17:00:00Z',
@@ -341,6 +411,11 @@ export const sellers = [
       },
       performanceScore: 90,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 4750, // Within range
+        lastWeek: 4400
+      },
       // New fields for Bucket Health
       pnlLastWeek: -12.5, // P&L percentage (negative means loss)
       spend: 4800, // Weekly spend amount
@@ -348,7 +423,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -16.2, // Week-2 PnL percentage
       spendWeek2: 4500, // Week-2 spend amount
-      spendGMVLastWeek: 4.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 4.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -373,6 +450,11 @@ export const sellers = [
       },
       performanceScore: 63,
       trend: 'stable',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 2800, // Below 3500
+        lastWeek: 2600
+      },
       // New fields for Bucket Health
       pnlLastWeek: -22.5, // P&L percentage (negative means loss)
       spend: 3200, // Weekly spend amount
@@ -380,13 +462,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -26.8, // Week-2 PnL percentage
       spendWeek2: 2900, // Week-2 spend amount
-      spendGMVLastWeek: 7.0 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 7.0, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '7d901234567abcdef8901234',
     name: 'Mehta Sports Equipment',
-    tag: 'HIT',
+    tag: null,
     openTasks: 5,
     overdueTasks: 2,
     lastContact: '2026-08-05T14:15:00Z',
@@ -405,6 +489,11 @@ export const sellers = [
       },
       performanceScore: 76,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 3890, // Within range
+        lastWeek: 3600
+      },
       // New fields for Bucket Health
       pnlLastWeek: -18.2, // P&L percentage (negative means loss)
       spend: 4200, // Weekly spend amount
@@ -412,7 +501,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -22.5, // Week-2 PnL percentage
       spendWeek2: 3900, // Week-2 spend amount
-      spendGMVLastWeek: 5.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -437,6 +528,11 @@ export const sellers = [
       },
       performanceScore: 81,
       trend: 'up',
+      accountStatus: 'Paused', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 0, // No spend when paused
+        lastWeek: 2700
+      },
       // New fields for Bucket Health
       pnlLastWeek: -16.8, // P&L percentage (negative means loss)
       spend: 3700, // Weekly spend amount
@@ -444,13 +540,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -20.3, // Week-2 PnL percentage
       spendWeek2: 3400, // Week-2 spend amount
-      spendGMVLastWeek: 5.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '7f123456789abcdefa123456',
     name: 'Joshi Beauty Products',
-    tag: 'HIT',
+    tag: null,
     openTasks: 4,
     overdueTasks: 1,
     lastContact: '2026-08-06T16:50:00Z',
@@ -469,6 +567,11 @@ export const sellers = [
       },
       performanceScore: 70,
       trend: 'down',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 3200, // Below 3500
+        lastWeek: 3100
+      },
       // New fields for Bucket Health
       pnlLastWeek: -17.5, // P&L percentage (negative means loss)
       spend: 3900, // Weekly spend amount
@@ -476,14 +579,16 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -21.2, // Week-2 PnL percentage
       spendWeek2: 3600, // Week-2 spend amount
-      spendGMVLastWeek: 5.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   // Additional sellers for Potential Sellers category (PnL > 5%, spend >= 3500, PQ score > 2.75)
   {
     id: '8a123456789abcdef0123456',
     name: 'Elite Fashion Hub',
-    tag: 'HIT',
+    tag: null,
     openTasks: 2,
     overdueTasks: 0,
     lastContact: '2026-08-08T18:30:00Z',
@@ -502,6 +607,11 @@ export const sellers = [
       },
       performanceScore: 94,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 3080, // Within range
+        lastWeek: 2850
+      },
       // Potential Seller criteria: PnL > 5%, spend >= 3500, PQ score > 2.75
       pnlLastWeek: 8.5, // Positive PnL - profitable
       spend: 4500, // Above minimum spend
@@ -509,13 +619,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -2.8, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 4200, // Week-2 spend amount
-      spendGMVLastWeek: 3.0 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 3.0, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '8b234567890abcdef1234567',
     name: 'Premium Electronics Store',
-    tag: 'HIT',
+    tag: null,
     openTasks: 3,
     overdueTasks: 1,
     lastContact: '2026-08-08T15:45:00Z',
@@ -534,6 +646,11 @@ export const sellers = [
       },
       performanceScore: 96,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 4370, // Within range
+        lastWeek: 4050
+      },
       // Potential Seller criteria met
       pnlLastWeek: 12.3, // Strong positive PnL
       spend: 5200, // High spend
@@ -541,7 +658,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -1.2, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 4900, // Week-2 spend amount
-      spendGMVLastWeek: 3.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 3.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -566,6 +685,11 @@ export const sellers = [
       },
       performanceScore: 89,
       trend: 'stable',
+      accountStatus: 'Paused', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 0, // No spend when paused
+        lastWeek: 2340
+      },
       // Potential Seller criteria met
       pnlLastWeek: 6.7, // Good profitability
       spend: 3800, // Above minimum
@@ -573,13 +697,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -4.1, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 3600, // Week-2 spend amount
-      spendGMVLastWeek: 4.9 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 4.9, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '8d456789012abcdef3456789',
     name: 'Tech Innovations Ltd',
-    tag: 'HIT',
+    tag: null,
     openTasks: 4,
     overdueTasks: 1,
     lastContact: '2026-08-07T16:20:00Z',
@@ -598,6 +724,11 @@ export const sellers = [
       },
       performanceScore: 91,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 3720, // Within range
+        lastWeek: 3450
+      },
       // Potential Seller criteria met
       pnlLastWeek: 9.8, // Excellent profitability
       spend: 4800, // High spend
@@ -605,7 +736,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -3.5, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 4500, // Week-2 spend amount
-      spendGMVLastWeek: 4.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 4.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -630,6 +763,11 @@ export const sellers = [
       },
       performanceScore: 87,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 2200, // Below 3500
+        lastWeek: 2040
+      },
       // Potential Seller criteria met
       pnlLastWeek: 7.2, // Good profitability
       spend: 3600, // Above minimum
@@ -637,14 +775,16 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -1.8, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 3400, // Week-2 spend amount
-      spendGMVLastWeek: 5.3 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.3, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   // Additional sellers with good profitability and spend but low PQ scores (will show PQ improvement reminder)
   {
     id: '8f678901234abcdef5678901',
     name: 'Rapid Growth Solutions',
-    tag: 'HIT',
+    tag: null,
     openTasks: 3,
     overdueTasks: 1,
     lastContact: '2026-08-08T10:45:00Z',
@@ -663,6 +803,11 @@ export const sellers = [
       },
       performanceScore: 82,
       trend: 'up',
+      accountStatus: 'Paused', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 2900, // Below 3500
+        lastWeek: 2750
+      },
       // Meets PnL and Spend but low PQ - will show reminder
       pnlLastWeek: 8.2, // Good profitability
       spend: 4200, // Above minimum spend
@@ -670,7 +815,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -2.9, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 3900, // Week-2 spend amount
-      spendGMVLastWeek: 5.1 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.1, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -695,6 +842,11 @@ export const sellers = [
       },
       performanceScore: 78,
       trend: 'stable',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 2430, // Below 3500
+        lastWeek: 2250
+      },
       // Meets PnL and Spend but low PQ - will show reminder
       pnlLastWeek: 6.8, // Good profitability
       spend: 3900, // Above minimum spend
@@ -702,13 +854,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -4.5, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 3700, // Week-2 spend amount
-      spendGMVLastWeek: 5.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '8h890123456abcdef7890123',
     name: 'Swift Commerce Ltd',
-    tag: 'HIT',
+    tag: null,
     openTasks: 2,
     overdueTasks: 0,
     lastContact: '2026-08-08T16:10:00Z',
@@ -727,6 +881,11 @@ export const sellers = [
       },
       performanceScore: 86,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 2880, // Below 3500
+        lastWeek: 2670
+      },
       // Meets PnL and Spend but low PQ - will show reminder
       pnlLastWeek: 9.1, // Excellent profitability
       spend: 4700, // High spend
@@ -734,7 +893,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -1.7, // Week-2 PnL percentage (was negative, now profitable)
       spendWeek2: 4400, // Week-2 spend amount
-      spendGMVLastWeek: 5.3 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 5.3, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   // Additional sellers for Bucket Health with acceptable financials but low PQ scores (will show PQ improvement reminder)
@@ -760,6 +921,11 @@ export const sellers = [
       },
       performanceScore: 68,
       trend: 'up',
+      accountStatus: 'Paused', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 3300, // Below 3500
+        lastWeek: 3150
+      },
       // Meets Bucket Health financial criteria but low PQ - will show reminder
       pnlLastWeek: -15.8, // Acceptable loss (> -20%)
       spend: 3700, // Above minimum spend
@@ -767,7 +933,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -19.5, // Week-2 PnL percentage
       spendWeek2: 3400, // Week-2 spend amount
-      spendGMVLastWeek: 18.5 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 18.5, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Pending' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
@@ -792,6 +960,11 @@ export const sellers = [
       },
       performanceScore: 71,
       trend: 'stable',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 3870, // Within range
+        lastWeek: 3584
+      },
       // Meets Bucket Health financial criteria but low PQ - will show reminder
       pnlLastWeek: -18.2, // Acceptable loss (> -20%)
       spend: 4100, // Above minimum spend
@@ -799,13 +972,15 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -22.8, // Week-2 PnL percentage
       spendWeek2: 3800, // Week-2 spend amount
-      spendGMVLastWeek: 16.2 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 16.2, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Auto TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   },
   {
     id: '9c345678901abcdef2345678',
     name: 'Growing Ventures Inc',
-    tag: 'HIT',
+    tag: null,
     openTasks: 4,
     overdueTasks: 3,
     lastContact: '2026-08-06T14:50:00Z',
@@ -824,6 +999,11 @@ export const sellers = [
       },
       performanceScore: 65,
       trend: 'up',
+      accountStatus: 'Live', // Live, Paused - for meta ads status
+      weeklySpend: {
+        currentWeek: 4380, // Within range
+        lastWeek: 4060
+      },
       // Meets Bucket Health financial criteria but low PQ - will show reminder
       pnlLastWeek: -12.5, // Good for bucket health (> -20%)
       spend: 3800, // Above minimum spend
@@ -831,7 +1011,9 @@ export const sellers = [
       // Additional metrics for Potential Sellers
       pnlWeek2: -16.8, // Week-2 PnL percentage
       spendWeek2: 3500, // Week-2 spend amount
-      spendGMVLastWeek: 19.8 // Last week Spend/GMV percentage
+      spendGMVLastWeek: 19.8, // Last week Spend/GMV percentage
+      // TS Status
+      tsStatus: 'Manual TS' // 'Pending', 'Manual TS', 'Auto TS'
     }
   }
 ];

@@ -76,8 +76,6 @@ const FilterBar = ({ filters, onFilterChange }) => {
               <option value="GM">GM</option>
               <option value="KAM">KAM</option>
               <option value="KAE">KAE</option>
-              <option value="AMA">AMA</option>
-              <option value="ALM">ALM</option>
               <option value="Ops">Ops</option>
             </select>
             <Users className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
