@@ -7,9 +7,11 @@ import TaskDrawer from '../components/TaskDrawer';
 import CompleteTaskModal from '../components/CompleteTaskModal';
 import BulkCompleteModal from '../components/BulkCompleteModal';
 import CommunicationPanel from '../components/CommunicationPanel';
+import BusinessOverview from '../components/BusinessOverview';
 import { sellers } from '../data/sellers';
 import { tasks, aiSummaryData } from '../data/tasks';
 import { communications, pocList } from '../data/communications';
+import { businessOverviewData } from '../data/businessOverview';
 import { useTasks } from '../hooks/useTasks';
 import { toast } from '../components/Toast';
 
@@ -26,6 +28,7 @@ const SellerDetail = () => {
       case 'p1-tasks': return 'P1';
       case 'p2-tasks': return 'P2';
       case 'p1-due-today': return 'P1';
+      case 'business-overview': return 'business';
       default: return 'callbacks';
     }
   };
@@ -266,6 +269,19 @@ const SellerDetail = () => {
           <div className="p-4 sm:p-6">
             {/* Tab Navigation */}
             <div className="flex flex-wrap gap-3 sm:gap-6 mb-4 sm:mb-6 border-b border-gray-200 overflow-x-auto">
+              {/* Business Overview Tab */}
+              <button
+                onClick={() => setActiveTab('business')}
+                className={`pb-3 border-b-2 font-medium text-sm whitespace-nowrap ${
+                  activeTab === 'business'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Business Overview
+              </button>
+              
+              {/* Task Tabs */}
               {Object.entries(tasksByCategory).map(([key, tasks]) => (
                 <button
                   key={key}
@@ -281,26 +297,28 @@ const SellerDetail = () => {
               ))}
             </div>
 
-            {/* Owner Filters */}
-            <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
-              <span className="text-sm font-medium text-gray-900 mb-1 sm:mb-0">Owner:</span>
-              {['all', 'my-tasks', 'GM', 'GC', 'KAM', 'KAE', 'Ops'].map(owner => (
-                <button
-                  key={owner}
-                  onClick={() => setOwnerFilter(owner)}
-                  className={`px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm font-medium transition-colors ${
-                    ownerFilter === owner
-                      ? 'bg-blue-100 text-blue-700 border border-blue-300'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {owner === 'all' ? 'All' : owner === 'my-tasks' ? 'My Tasks' : owner}
-                </button>
-              ))}
-            </div>
+            {/* Owner Filters - Only show for task tabs */}
+            {activeTab !== 'business' && (
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <span className="text-sm font-medium text-gray-900 mb-1 sm:mb-0">Owner:</span>
+                {['all', 'my-tasks', 'GM', 'GC', 'KAM', 'KAE', 'Ops'].map(owner => (
+                  <button
+                    key={owner}
+                    onClick={() => setOwnerFilter(owner)}
+                    className={`px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm font-medium transition-colors ${
+                      ownerFilter === owner
+                        ? 'bg-blue-100 text-blue-700 border border-blue-300'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    {owner === 'all' ? 'All' : owner === 'my-tasks' ? 'My Tasks' : owner}
+                  </button>
+                ))}
+              </div>
+            )}
 
-            {/* Bulk Actions */}
-            {currentTasks.length > 0 && (
+            {/* Bulk Actions - Only show for task tabs */}
+            {activeTab !== 'business' && currentTasks.length > 0 && (
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-center gap-3 sm:gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -356,28 +374,36 @@ const SellerDetail = () => {
               </div>
             )}
 
-            {/* Task List */}
-            <div className="space-y-3 sm:space-y-4">
-              {currentTasks.map(task => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  isSelected={selectedTasks.has(task.id)}
-                  onToggleSelect={toggleTaskSelection}
-                  onMarkComplete={handleTaskComplete}
-                  onViewDetails={setSelectedTaskDrawer}
-                />
-              ))}
-            </div>
+            {/* Content Area */}
+            {activeTab === 'business' ? (
+              /* Business Overview Content */
+              <BusinessOverview businessData={businessOverviewData[sellerId]} />
+            ) : (
+              /* Task List Content */
+              <>
+                <div className="space-y-3 sm:space-y-4">
+                  {currentTasks.map(task => (
+                    <TaskCard
+                      key={task.id}
+                      task={task}
+                      isSelected={selectedTasks.has(task.id)}
+                      onToggleSelect={toggleTaskSelection}
+                      onMarkComplete={handleTaskComplete}
+                      onViewDetails={setSelectedTaskDrawer}
+                    />
+                  ))}
+                </div>
 
-            {/* Empty State */}
-            {currentTasks.length === 0 && (
-              <div className="text-center py-6 sm:py-8">
-                <div className="text-gray-400 mb-2">No {activeTab} tasks found</div>
-                <p className="text-sm text-gray-500">
-                  {ownerFilter !== 'all' ? 'Try changing the owner filter.' : 'All tasks in this category have been completed.'}
-                </p>
-              </div>
+                {/* Empty State */}
+                {currentTasks.length === 0 && (
+                  <div className="text-center py-6 sm:py-8">
+                    <div className="text-gray-400 mb-2">No {activeTab} tasks found</div>
+                    <p className="text-sm text-gray-500">
+                      {ownerFilter !== 'all' ? 'Try changing the owner filter.' : 'All tasks in this category have been completed.'}
+                    </p>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
